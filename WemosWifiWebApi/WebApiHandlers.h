@@ -1,6 +1,4 @@
 #include "sys/string.h"
-#include "WebApiHTML.h"
-
 
 // Handlers
 
@@ -32,33 +30,15 @@ void WebapiCurrencies_Rates() {
   sendJsonResponse_P(json_Currencies_Rates);
 }
 
-void handleWebapi() {
+void WebapiHitList_Contractors() {
+  sendJsonResponse_P(json_HitList_Contractors);
+}
+
+void WebapiHandler() {
   server.sendHeader("Location", String("/"), true);
   server.send(302, "text/plain", "");
 }
 
-void handleRoot() {
-  sendHtmlResponse(GetNiceHTMLTemplace(F(
-    "<br/>Available APIs:<br/><ul>"
-
-    "<li>Journey Log:<ul>"
-    "<li><a href='/api/journeylog/Locations.json'>/api/journeylog/Locations.json</a></li>"
-    "<li><a href='/api/journeylog/Stays.json'>/api/journeylog/Stays.json</a></li>"
-    "<li><a href='/api/journeylog/Areas.json'>/api/journeylog/Areas.json</a></li>"
-    "</ul></li>"
-
-    "<li>Bank Accounts:<ul>"
-    "<li><a href='/api/bankaccounts/BankAccounts.json'>/api/bankaccounts/BankAccounts.json</a></li>"
-    "<li><a href='/api/bankaccounts/BankAccountMovements.json'>/api/bankaccounts/BankAccountMovements.json</a></li>"
-    "</ul></li>"
-
-    "<li>Currencies:<ul>"
-    "<li><a href='/api/currencies/rates.json'>/api/currencies/rates.json</a></li>"
-    "<li><a href='/api/currencies/transactions.json'>/api/currencies/transactions.json</a></li>"
-    "</ul></li>"
-
-    "</ul>")));
-}
 
 void handleNotFoundPlainText() {
   requestsInvalid++;
@@ -83,13 +63,14 @@ void handleNotFound() {
   } else {
     requestsInvalid++;
 
-    String message = "<h2>Not Found</h2><ul>"
-                     "<li>URI: "
-                     + server.uri() + "</li>"
-                                      "<li>Method: "
-                     + (server.method() == HTTP_GET ? "GET" : "POST") + "</li>"
-                                                                        "<li>Arguments: "
-                     + String(server.args()) + "<ol>";
+    String message =
+      "<h2>Not Found</h2><ul>"
+      "<li>URI: "
+      + server.uri() + "</li>"
+                       "<li>Method: "
+      + (server.method() == HTTP_GET ? "GET" : "POST") + "</li>"
+                                                         "<li>Arguments: "
+      + String(server.args()) + "<ol>";
 
     for (uint8_t i = 0; i < server.args(); i++) {
       message += "<li>" + server.argName(i) + ": " + server.arg(i) + "</li>";
@@ -103,18 +84,4 @@ void handleNotFound() {
 
     server.send(404, "text/html", GetNiceHTMLTemplace(message));
   }
-}
-
-void handleImage_Favicon() {
-  sendResourceRequest(true, png, ImageFaviconBinary, ImageFaviconBinarySize);
-  //requests++;
-  //server.sendHeader("Cache-Control", "public, max-age=3600");
-  //server.send_P(200, F("image/png"), ImageFaviconBinary, ImageFaviconBinarySize);
-}
-
-void handleImage_WemosBoard() {
-  sendResourceRequest(true, gif, ImageWemosBoardBinary, ImageWemosBoardBinarySize);
-  //requests++;
-  //server.sendHeader("Cache-Control", "public, max-age=3600");
-  //server.send_P(200, "image/gif", ImageWemosBoardBinary, ImageWemosBoardBinarySize);
 }

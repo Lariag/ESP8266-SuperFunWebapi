@@ -41,15 +41,3 @@ void WebapiConfig_BoardData() {
   serializeJson(doc, serialized);
   sendJsonResponse(serialized);
 }
-
-void configMainHandler() {
-  uint8_t ledStatus = digitalRead(led);
-
-  sendHtmlResponse(GetNiceHTMLTemplace(
-    F("<br/>Available configuration options:<br/><ul>"
-      "<li><a href='/api/config/boarddata'>Get current board data</a></li>"
-      "<li><a href='/api/config/switchled'>Switch led on/off</a></li>"
-      "<li><a href='/api/config/ledstatus'>Get led status</a></li>"
-      "<!--li><a href='/config/restart'>Restart Arduino</a></li-->"
-      "</ul>")));
-}

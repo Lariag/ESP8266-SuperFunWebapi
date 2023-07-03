@@ -10,6 +10,11 @@ void sendJsonResponse(String json) {
   server.send(200, F("application/json"), json);
 }
 
+void sendJsonResponseError(int errorCode, String errorMessage) {
+  requests++;
+  server.send(errorCode, F("application/json"), String(F("{\"Error\" : \"")) + errorMessage + String(F("\"}")));
+}
+
 void sendJsonResponse_P(const char* json) {
   requests++;
   server.send_P(200, "application/json", json);
@@ -28,7 +33,8 @@ void sendHtmlResponse_P(const char* html) {
 enum resourceType {
   png = 1,
   gif = 2,
-  json
+  json = 3,
+  ico = 4
 };
 
 void sendResourceRequest(bool useCache, enum resourceType resType, const char* data, unsigned long dataSize) {
@@ -42,6 +48,9 @@ void sendResourceRequest(bool useCache, enum resourceType resType, const char* d
       break;
     case gif:
       server.send_P(200, "image/gif", data, dataSize);
+      break;
+    case ico:
+      server.send_P(200, "image/x-icon", data, dataSize);
       break;
     case json:
       server.send_P(200, "application/json", data, dataSize);

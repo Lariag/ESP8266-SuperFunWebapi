@@ -15,25 +15,35 @@
 #include "ImagesBinary.h"
 #include "jsonResponses.h"
 #include "MiscFunctions.h"
+#include "CharBuffer.h"
 
 unsigned long requests = 0;
 unsigned long requestsInvalid = 0;
 
 ESP8266WebServer server(80);
 
+// Main handlers
 #include "ResponseHelpers.h"
+#include "PageHandlers.h"
 #include "WebApiHandlers.h"
 #include "ConfigHandlers.h"
 
+// Advanced handlers
+#include "WebapiHanoi.h"
+
 void setupHandlers() {
-  server.on(F("/"), handleRoot);
+  // Page handlers
+  server.on(F("/"), pageRootHandler);
+  server.on(F("/config"), pageConfigHandler);
 
   // Resources:
   server.on(F("/img/Favicon.png"), handleImage_Favicon);
   server.on(F("/img/WemosBoard.gif"), handleImage_WemosBoard);
 
   // Webapi handlers
-  server.on(F("/api"), handleWebapi);
+  server.on(F("/api"), WebapiHandler);
+
+  server.on(F("/api/hanoi"), WebapiHanoiHandle);
 
   server.on(F("/api/journeylog/Locations.json"), WebapiJourneyLog_Locations);
   server.on(F("/api/journeylog/Stays.json"), WebapiJourneyLog_Stays);
@@ -45,10 +55,12 @@ void setupHandlers() {
   server.on(F("/api/currencies/rates.json"), WebapiCurrencies_Rates);
   server.on(F("/api/currencies/transactions.json"), WebapiCurrencies_Transactions);
 
+  server.on(F("/api/hitlist/Contractors.json"), WebapiHitList_Contractors);
+
   server.onNotFound(handleNotFound);
 
   // Config handlers
-  server.on(F("/config"), configMainHandler);
+
   server.on(F("/api/config/switchled"), configSwitchLedStatusHandler);
   server.on(F("/api/config/restart"), configRestartBoard);
   server.on(F("/api/config/reset"), configRestartBoard);
@@ -66,7 +78,7 @@ void setup(void) {
   WiFi.mode(WIFI_STA);
   WiFi.config(staticIp, gateway, subnet);
   WiFi.begin(ssid, password);
-  Serial.println(F(""));
+  Serial.println();
 
   // Wait for connection
   bool ledStatus = false;
@@ -79,7 +91,7 @@ void setup(void) {
 
   digitalWrite(led, HIGH);
 
-  Serial.println(F(""));
+  Serial.println();
   Serial.print(F("Connected to "));
   Serial.println(ssid);
   Serial.print(F("IP address: "));
