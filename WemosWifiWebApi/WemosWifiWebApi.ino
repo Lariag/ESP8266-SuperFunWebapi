@@ -11,12 +11,10 @@
 #include <ArduinoJson.h>
 #include <ArduinoJson.hpp>
 
+#include "Configs.h"
 #include "ImagesBinary.h"
 #include "jsonResponses.h"
-#include "Configs.h"
 #include "MiscFunctions.h"
-
-
 
 unsigned long requests = 0;
 unsigned long requestsInvalid = 0;

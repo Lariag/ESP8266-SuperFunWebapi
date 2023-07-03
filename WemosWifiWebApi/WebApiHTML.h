@@ -15,13 +15,21 @@ String GetHTMLHeader() {
            "<html>"
            "<head>"
            "<meta charset='UTF-8'>"
+#if DEV
+           "<title>&#60;DEV&#62; Lara's Super Fun WebApi</title>"
+#else
            "<title>Lara's Super Fun WebApi</title>"
+#endif
            "<style>a {color:#fca503} a:visited {color:#fca503} a:hover {color:#fcba03} .mainmenu {font-size:.8em}</style>"
            "<link rel='icon' type='image/png' sizes='32x32' href='/img/Favicon.png' />"
            "</head>"
            "<body style='background-color:#222; color:#eee; font-family:Arial; font-size:1em'>"
            "<h1>Welcome to Lara's Super Fun WebApi!</h1>"
-           "<div class='mainmenu'> | <a href='/'>Main page</a> | <a href='/config'>Config page</a> | </div>");
+           "<div class='mainmenu'>"
+#if DEV
+           " | <a>&#60;DEV&#62;</a> "
+#endif
+           " | <a href='/'>Main page</a> | <a href='/config'>Config page</a> | </div>");
 }
 
 String GetHTMLFooter() {
