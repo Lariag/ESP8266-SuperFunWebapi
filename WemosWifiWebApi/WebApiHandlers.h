@@ -10,16 +10,28 @@ void WebapiBankAccounts_BankAccountMovements() {
   sendJsonResponse_P(json_BankAccounts_BankAccountMovements);
 }
 
-void WebapiJourneyLog_Locations() {
-  sendJsonResponse_P(json_JourneyLog_Locations);
+void WebapiPokeJourneyLog_Locations() {
+  sendJsonResponse_P(json_JourneyLog_Poke_Locations);
 }
 
-void WebapiJourneyLog_Stays() {
-  sendJsonResponse_P(json_JourneyLog_Stays);
+void WebapiPokeJourneyLog_Stays() {
+  sendJsonResponse_P(json_JourneyLog_Poke_Stays);
 }
 
-void WebapiJourneyLog_Areas() {
-  sendJsonResponse_P(json_JourneyLog_Areas);
+void WebapiPokeJourneyLog_Areas() {
+  sendJsonResponse_P(json_JourneyLog_Poke_Areas);
+}
+
+void WebapiEsJourneyLog_Locations() {
+  sendJsonResponse_P(json_JourneyLog_Es_Locations);
+}
+
+void WebapiEsJourneyLog_Stays() {
+  sendJsonResponse_P(json_JourneyLog_Es_Stays);
+}
+
+void WebapiEsJourneyLog_Areas() {
+  sendJsonResponse_P(json_JourneyLog_Es_Areas);
 }
 
 void WebapiCurrencies_Transactions() {
@@ -32,6 +44,14 @@ void WebapiCurrencies_Rates() {
 
 void WebapiHitList_Contractors() {
   sendJsonResponse_P(json_HitList_Contractors);
+}
+
+void WebapiPhrases_Mariano_All(){
+  sendJsonResponse_P(json_Phrases_Mariano);
+}
+
+void WebapiPhrases_Mariano_RandomOne(){
+  sendJsonResponse_P(json_Phrases_Mariano_Separated[random(json_Phrases_MarianoSeparated_Count)]);
 }
 
 void WebapiHandler() {

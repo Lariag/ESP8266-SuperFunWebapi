@@ -55,31 +55,48 @@ void pageRootHandler() {
     "<br/>Available APIs:<br/><ul>"
 
     "<li>HitList:<ul>"
-    "<li><a target='_blank' href='/api/hitlist/Contractors.json'>/api/hitlist/Contractors.json</a></li>"
+    "  <li><a target='_blank' href='/api/hitlist/Contractors.json'>/api/hitlist/Contractors.json</a></li>"
     "</ul></li>"
 
     "<li>Journey Log:<ul>"
-    "<li><a target='_blank' href='/api/journeylog/Locations.json'>/api/journeylog/Locations.json</a></li>"
-    "<li><a target='_blank' href='/api/journeylog/Stays.json'>/api/journeylog/Stays.json</a></li>"
-    "<li><a target='_blank' href='/api/journeylog/Areas.json'>/api/journeylog/Areas.json</a></li>"
+    "  <li>Pokémon Regions:<ul>"
+    "    <li><a target='_blank' href='/api/journeylog/pokemonregions/Locations.json'>/api/journeylog/pokemonregions/Locations.json</a></li>"
+    "    <li><a target='_blank' href='/api/journeylog/pokemonregions/Stays.json'>/api/journeylog/pokemonregions/Stays.json</a></li>"
+    "    <li><a target='_blank' href='/api/journeylog/pokemonregions/Areas.json'>/api/journeylog/pokemonregions/Areas.json</a></li>"
+    "  </ul></li>"
+    "  <li>Spain Cities:<ul>"
+    "    <li><a target='_blank' href='/api/journeylog/spainregions/Locations.json'>/api/journeylog/spainregions/Locations.json</a></li>"
+    "    <li><a target='_blank' href='/api/journeylog/spainregions/Stays.json'>/api/journeylog/spainregions/Stays.json</a></li>"
+    "    <li><a target='_blank' href='/api/journeylog/spainregions/Areas.json'>/api/journeylog/spainregions/Areas.json</a></li>"
+    "  </ul></li>"
+    "</ul></li>"
+
+    "<li>Journey Log:<ul>"
+
     "</ul></li>"
 
     "<li>Bank Accounts:<ul>"
-    "<li><a target='_blank' href='/api/bankaccounts/BankAccounts.json'>/api/bankaccounts/BankAccounts.json</a></li>"
-    "<li><a target='_blank' href='/api/bankaccounts/BankAccountMovements.json'>/api/bankaccounts/BankAccountMovements.json</a></li>"
+    "  <li><a target='_blank' href='/api/bankaccounts/BankAccounts.json'>/api/bankaccounts/BankAccounts.json</a></li>"
+    "  <li><a target='_blank' href='/api/bankaccounts/BankAccountMovements.json'>/api/bankaccounts/BankAccountMovements.json</a></li>"
     "</ul></li>"
 
     "<li>Currencies:<ul>"
-    "<li><a target='_blank' href='/api/currencies/rates.json'>/api/currencies/rates.json</a></li>"
-    "<li><a target='_blank' href='/api/currencies/transactions.json'>/api/currencies/transactions.json</a></li>"
+    "  <li><a target='_blank' href='/api/currencies/rates.json'>/api/currencies/rates.json</a></li>"
+    "  <li><a target='_blank' href='/api/currencies/transactions.json'>/api/currencies/transactions.json</a></li>"
+    "</ul></li>"
+
+    "<li>Pharses:<ul>"
+    "  <li>Mariano Rajoy<ul>"
+    "    <li><a target='_blank' href='/api/pharses/mariano'>/api/pharses/Mariano</a></li>"
+    "    <li><a target='_blank' href='/api/pharses/mariano/random'>/api/pharses/Mariano/Random</a></li>"
+    "  </ul></li>"
     "</ul></li>"
 
     "<li>Hanoi Tower Solver:<ul>"
-    "<li><a target='_blank' href='/api/hanoi?discs=3'>/api/hanoi</a><ul>"
-    "<li>Resolves the tower of hanoi problem, returning a json with the moves.</li>"
-    "<li>Parameter 'discs': Number of discs to solve. Between 2 and 5.</li>"
-    "</ul></li>"
-
+    "  <li><a target='_blank' href='/api/hanoi?discs=3'>/api/hanoi</a><ul>"
+    "    <li>Resolves the tower of hanoi problem, returning a json with the moves.</li>"
+    "    <li>Parameter 'discs': Number of discs to solve. Between 2 and 5.</li>"
+    "  </ul></li>"
     "</ul></li>"
 
     "</ul>")));

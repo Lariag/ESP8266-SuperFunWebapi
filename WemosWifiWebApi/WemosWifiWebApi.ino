@@ -45,9 +45,16 @@ void setupHandlers() {
 
   server.on(F("/api/hanoi"), WebapiHanoiHandle);
 
-  server.on(F("/api/journeylog/Locations.json"), WebapiJourneyLog_Locations);
-  server.on(F("/api/journeylog/Stays.json"), WebapiJourneyLog_Stays);
-  server.on(F("/api/journeylog/Areas.json"), WebapiJourneyLog_Areas);
+  server.on(F("/api/journeylog/pokemonregions/Locations.json"), WebapiPokeJourneyLog_Locations);
+  server.on(F("/api/journeylog/pokemonregions/Stays.json"), WebapiPokeJourneyLog_Stays);
+  server.on(F("/api/journeylog/pokemonregions/Areas.json"), WebapiPokeJourneyLog_Areas);
+
+  server.on(F("/api/journeylog/spainregions/Locations.json"), WebapiEsJourneyLog_Locations);
+  server.on(F("/api/journeylog/spainregions/Stays.json"), WebapiEsJourneyLog_Stays);
+  server.on(F("/api/journeylog/spainregions/Areas.json"), WebapiEsJourneyLog_Areas);
+  server.on(F("/api/esjourneylog/Locations.json"), WebapiEsJourneyLog_Locations);
+  server.on(F("/api/esjourneylog/Stays.json"), WebapiEsJourneyLog_Stays);
+  server.on(F("/api/esjourneylog/Areas.json"), WebapiEsJourneyLog_Areas);
 
   server.on(F("/api/bankaccounts/BankAccounts.json"), WebapiBankAccounts_BankAccounts);
   server.on(F("/api/bankaccounts/BankAccountMovements.json"), WebapiBankAccounts_BankAccountMovements);
@@ -56,6 +63,9 @@ void setupHandlers() {
   server.on(F("/api/currencies/transactions.json"), WebapiCurrencies_Transactions);
 
   server.on(F("/api/hitlist/Contractors.json"), WebapiHitList_Contractors);
+
+  server.on(F("/api/pharses/mariano"), WebapiPhrases_Mariano_All);
+  server.on(F("/api/pharses/mariano/random"), WebapiPhrases_Mariano_RandomOne);
 
   server.onNotFound(handleNotFound);
 
