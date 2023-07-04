@@ -4,9 +4,9 @@
 #endif
 
 #define DEV 1
-// Define a single board (used for images).
-#define IsWemosBoard
-//#define IsAZDeliveryBoard
+// Set a single board (used for images).
+#define IsWemosBoard 0
+#define IsAZDeliveryBoard 1
 
 const int led = LED_BUILTIN;
 
@@ -14,10 +14,14 @@ const int led = LED_BUILTIN;
 const bool enableSerial = true;
 const bool enableDDNS = false;
 const bool enableOTA = true;
+const bool enableOTAPassword = false;
+const char PROGMEM passwordOTA[] = {"1234"};
 #else
 const bool enableSerial = false;
 const bool enableDDNS = true;
 const bool enableOTA = true;
+const bool enableOTAPassword = true;
+const char PROGMEM passwordOTA[] = {"1234"};
 #endif
 
 const char PROGMEM ddnsToken[] = { "Your token" };

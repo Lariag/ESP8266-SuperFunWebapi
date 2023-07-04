@@ -16,9 +16,9 @@ String GetHTMLHeader() {
            "<head>"
            "<meta charset='UTF-8'>"
 #if DEV
-           "<title>&#60;DEV&#62; Lara's Super Fun WebApi</title>"
+           "<title>&#60;DEV&#62; Lara's Super Fun WebAPI</title>"
 #else
-           "<title>Lara's Super Fun WebApi</title>"
+           "<title>Lara's Super Fun WebAPI</title>"
 #endif
            "<style>"
            "a {color:#fca503} "
@@ -32,7 +32,7 @@ String GetHTMLHeader() {
            "<link rel='icon' type='image/png' sizes='32x32' href='/img/Favicon.png' />"
            "</head>"
            "<body style='background-color:#222; color:#eee; font-family:Arial; font-size:1em'>"
-           "<h1>Welcome to Lara's Super Fun WebApi!</h1>"
+           "<h1>Welcome to Lara's Super Fun WebAPI!</h1>"
            "<div class='mainmenu'>"
 #if DEV
            " | <a>&#60;DEV&#62;</a> "
@@ -69,10 +69,6 @@ void pageRootHandler() {
     "    <li><a target='_blank' href='/api/journeylog/spainregions/Stays.json'>/api/journeylog/spainregions/Stays.json</a></li>"
     "    <li><a target='_blank' href='/api/journeylog/spainregions/Areas.json'>/api/journeylog/spainregions/Areas.json</a></li>"
     "  </ul></li>"
-    "</ul></li>"
-
-    "<li>Journey Log:<ul>"
-
     "</ul></li>"
 
     "<li>Bank Accounts:<ul>"

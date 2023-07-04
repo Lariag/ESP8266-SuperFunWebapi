@@ -107,9 +107,12 @@ void setup(void) {
   Serial.print(F("IP address: "));
   Serial.println(WiFi.localIP());
 
-  if (enableOTA)
+  if (enableOTA) {
     ArduinoOTA.begin();
-
+    if (enableOTAPassword) {
+      ArduinoOTA.setPassword(passwordOTA);
+    }
+  }
   if (MDNS.begin(MDNSAddress)) {
     Serial.println(F("MDNS responder started"));
   }
