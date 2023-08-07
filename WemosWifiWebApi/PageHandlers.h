@@ -54,6 +54,18 @@ void pageRootHandler() {
   sendHtmlResponse(GetNiceHTMLTemplace(F(
     "<br/>Available APIs:<br/><ul>"
 
+    "<li>Food Recipes:<ul>"
+    "  <li><a target='_blank' href='/api/foodrecipes/Food.json'>/api/foodrecipes/Food.json</a></li>"
+    "  <li><a target='_blank' href='/api/foodrecipes/Recipes.json'>/api/foodrecipes/Recipes.json</a></li>"
+    "  <li><a target='_blank' href='/api/foodrecipes/CookingPrice.json'>/api/foodrecipes/CookingPrice.json</a></li>"
+    "</ul></li>"
+
+    "<li>Real State:<ul>"
+    "  <li><a target='_blank' href='/api/realstate/Houses.json'>/api/realstate/Houses.json</a></li>"
+    "  <li><a target='_blank' href='/api/realstate/Additions.json'>/api/realstate/Additions.json</a></li>"
+    "  <li><a target='_blank' href='/api/realstate/Neighborhoods.json'>/api/realstate/Neighborhoods.json</a></li>"
+    "</ul></li>"
+
     "<li>HitList:<ul>"
     "  <li><a target='_blank' href='/api/hitlist/Contractors.json'>/api/hitlist/Contractors.json</a></li>"
     "</ul></li>"

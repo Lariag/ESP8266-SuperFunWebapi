@@ -52,12 +52,17 @@ void setupHandlers() {
   server.on(F("/api/journeylog/spainregions/Locations.json"), WebapiEsJourneyLog_Locations);
   server.on(F("/api/journeylog/spainregions/Stays.json"), WebapiEsJourneyLog_Stays);
   server.on(F("/api/journeylog/spainregions/Areas.json"), WebapiEsJourneyLog_Areas);
-  server.on(F("/api/esjourneylog/Locations.json"), WebapiEsJourneyLog_Locations);
-  server.on(F("/api/esjourneylog/Stays.json"), WebapiEsJourneyLog_Stays);
-  server.on(F("/api/esjourneylog/Areas.json"), WebapiEsJourneyLog_Areas);
 
   server.on(F("/api/bankaccounts/BankAccounts.json"), WebapiBankAccounts_BankAccounts);
   server.on(F("/api/bankaccounts/BankAccountMovements.json"), WebapiBankAccounts_BankAccountMovements);
+
+  server.on(F("/api/foodrecipes/Food.json"), WebapiFoodRecipes_Food);
+  server.on(F("/api/foodrecipes/Recipes.json"), WebapiFoodRecipes_Recipes);
+  server.on(F("/api/foodrecipes/CookingPrice.json"), WebapiFoodRecipes_CookingPrice);
+
+  server.on(F("/api/realstate/Houses.json"), WebapiRealState_Houses);
+  server.on(F("/api/realstate/Additions.json"), WebapiRealState_Additions);
+  server.on(F("/api/realstate/Neighborhoods.json"), WebapiRealState_Neighborhoods);
 
   server.on(F("/api/currencies/rates.json"), WebapiCurrencies_Rates);
   server.on(F("/api/currencies/transactions.json"), WebapiCurrencies_Transactions);
@@ -98,6 +103,8 @@ void setup(void) {
     digitalWrite(led, ledStatus ? LOW : HIGH);
     ledStatus = !ledStatus;
   }
+  WiFi.setAutoReconnect(true);
+  WiFi.persistent(true);
 
   digitalWrite(led, HIGH);
 

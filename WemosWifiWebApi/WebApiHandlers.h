@@ -46,6 +46,29 @@ void WebapiHitList_Contractors() {
   sendJsonResponse_P(json_HitList_Contractors);
 }
 
+void WebapiFoodRecipes_Food() {
+  sendJsonResponse_P(json_FoodRecipes_Food);
+}
+
+void WebapiFoodRecipes_Recipes() {
+  sendJsonResponse_P(json_FoodRecipes_Recipes);
+}
+
+void WebapiFoodRecipes_CookingPrice() {
+  sendJsonResponse_P(json_FoodRecipes_CookingPrice);
+}
+
+void WebapiRealState_Houses(){
+  sendJsonResponse_P(json_RealState_Houses);
+}
+
+void WebapiRealState_Additions(){
+  sendJsonResponse_P(json_RealState_Additions);
+}
+
+void WebapiRealState_Neighborhoods(){
+  sendJsonResponse_P(json_RealState_Neighborhoods);
+}
 void WebapiPhrases_Mariano_All(){
   sendJsonResponse_P(json_Phrases_Mariano);
 }
