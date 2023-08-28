@@ -20,29 +20,23 @@ String GetHTMLHeader() {
 #else
            "<title>Lara's Super Fun WebAPI</title>"
 #endif
-           "<style>"
-           "a {color:#fca503} "
-           "a:visited {color:#fca503} "
-           "a:hover {color:#fcba03} "
-           ".mainmenu {font-size:.8em}"
-           "ul {margin-bottom: 10px}"
-           "ul li ul li {font-size:.9em}"
-           "ul li ul li ul li {font-size:.8em}"
-           "</style>"
            "<link rel='icon' type='image/png' sizes='32x32' href='/img/Favicon.png' />"
+           "<link rel='stylesheet' href='common.css' type='text/css' />"
            "</head>"
-           "<body style='background-color:#222; color:#eee; font-family:Arial; font-size:1em'>"
-           "<h1>Welcome to Lara's Super Fun WebAPI!</h1>"
+           "<body class='bodyClass' style='background-color:#222;'>"
+           "<div class='pageHeader'>"
+           "<h1 class='rainbow-gradient-text'>Welcome to Lara's Super Fun WebAPI!</h1>"
            "<div class='mainmenu'>"
 #if DEV
            " | <a>&#60;DEV&#62;</a> "
 #endif
-           " | <a href='/'>Main page</a> | <a href='/config'>Config page</a> | </div>");
+           " | <a href='/'>Main page</a> | <a href='/config'>Config page</a> | </div></div>"
+           "<div class='pageContainer'>");
 }
 
 String GetHTMLFooter() {
   return F("<br/><img src='/img/WemosBoard.gif' style='border-radius: 0 20px; width:300px' />"
-           "</body>");
+           "</div></body>");
 }
 
 String GetNiceHTMLTemplace(String content) {
@@ -110,6 +104,26 @@ void pageRootHandler() {
     "</ul>")));
 }
 
+const PROGMEM char pageCSS[] = {
+           ".bodyClass {background-color:#222; margin:0; background-size: 3em; background-image: url('/img/bgTriangles.png'); background-repeat: repeat; color:#eee; font-family:'Arial'; font-size:1em}\n"
+           ".pageHeader { padding: 8px; margin: -8px 0; background-color: #272727 }"
+           ".pageContainer {margin: 8px;}"
+           "a {color:#fca503}\n"
+           "a:visited {color:#fca503}\n"
+           "a:hover {color:#fcba03;}\n"
+           ".mainmenu {font-size:.8em}\n"
+           "ul {margin-bottom: 10px}\n"
+           "ul li ul li {font-size:.9em}\n"
+           "ul li ul li ul li {font-size:.8em}\n"
+           ".rainbow-element-background { animation: rainbowBackground 5s linear infinite;}"
+           "@keyframes rainbowBackground {0% { background: #ff000057; /* Red */ } 12.5% { background: #ff660057; /* Orange */ } 25% { background: #ffff0057; /* Yellow */ } 37.5% { background: #00ff0057; /* Green */ } 	50% { background: #00ffff57; /* Cyan */ } 62.5% { background: #0000ff57; /* Blue */ } 75% { background: #8a2be257; /* Indigo */ } 87.5% { background: #9400d357; /* Violet */ } 100% { background: #ff000057; /* Back to Red */ } }"
+           ".rainbow-gradient-text:hover { background: repeating-linear-gradient(45deg, #ff0000, #ff6600, #ffff00, #00ff00, #00ffff, #0000ff, #8a2be2, #9400d3, #ff0000, #ff6600, #ffff00, #00ff00); background-size: 300px 100%; background-origin: border-box; background-clip: content-box; animation: rainbowGradient 10s linear infinite; color: transparent; background-clip: text; }"
+           "@keyframes rainbowGradient { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }"
+           };
+
+void handleCSS(){
+  sendCSSResponse_P(pageCSS);
+}
 
 void pageConfigHandler() {
   uint8_t ledStatus = digitalRead(led);
@@ -126,14 +140,11 @@ void pageConfigHandler() {
 
 void handleImage_Favicon() {
   sendResourceRequest(true, ico, ImageFaviconBinary, ImageFaviconBinarySize);
-  //requests++;
-  //server.sendHeader("Cache-Control", "public, max-age=3600");
-  //server.send_P(200, F("image/png"), ImageFaviconBinary, ImageFaviconBinarySize);
 }
 
 void handleImage_WemosBoard() {
   sendResourceRequest(true, gif, ImageWemosBoardBinary, ImageWemosBoardBinarySize);
-  //requests++;
-  //server.sendHeader("Cache-Control", "public, max-age=3600");
-  //server.send_P(200, "image/gif", ImageWemosBoardBinary, ImageWemosBoardBinarySize);
+}
+void handleImage_BackgroundTiled() {
+  sendResourceRequest(true, png, ImageTiledBackgroundBinary, ImageTiledBackgroundSize);
 }

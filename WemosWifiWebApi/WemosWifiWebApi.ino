@@ -39,6 +39,8 @@ void setupHandlers() {
   // Resources:
   server.on(F("/img/Favicon.png"), handleImage_Favicon);
   server.on(F("/img/WemosBoard.gif"), handleImage_WemosBoard);
+  server.on(F("/img/bgTriangles.png"), handleImage_BackgroundTiled);
+  server.on(F("/common.css"), handleCSS);
 
   // Webapi handlers
   server.on(F("/api"), WebapiHandler);

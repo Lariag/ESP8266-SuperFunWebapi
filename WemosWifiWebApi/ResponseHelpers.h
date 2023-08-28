@@ -20,6 +20,11 @@ void sendJsonResponse_P(const char* json) {
   server.send_P(200, "application/json", json);
 }
 
+void sendCSSResponse_P(const char* css) {
+  requests++;
+  server.send_P(200, "text/css", css);
+}
+
 void sendHtmlResponse(String html) {
   requests++;
   server.send(200, F("text/html"), html);
@@ -40,7 +45,7 @@ enum resourceType {
 void sendResourceRequest(bool useCache, enum resourceType resType, const char* data, unsigned long dataSize) {
   requests++;
   if (useCache)
-    server.sendHeader(F("Cache-Control"), F("public, max-age=3600"));
+    server.sendHeader(F("Cache-Control"), F("public, max-age=86400"));
 
   switch (resType) {
     case png:
