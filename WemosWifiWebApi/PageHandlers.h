@@ -30,7 +30,7 @@ String GetHTMLHeader() {
 #if DEV
            " | <a>&#60;DEV&#62;</a> "
 #endif
-           " | <a href='/'>Main page</a> | <a href='/config'>Config page</a> | </div></div>"
+           " | <a href='/'>Main page</a> | <a href='/config'>Config page</a> | <a href='https://github.com/Lariag/ESP8266-SuperFunWebapi' target='_blank'>View on GitHub</a> |</div></div>"
            "<div class='pageContainer'>");
 }
 
