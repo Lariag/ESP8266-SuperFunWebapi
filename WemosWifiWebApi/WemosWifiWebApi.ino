@@ -1,7 +1,10 @@
+#include <stdint.h>
+#include <string.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
+#include <WebSocketsServer.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <ESP8266mDNS.h>
@@ -30,17 +33,22 @@ ESP8266WebServer server(80);
 
 // Advanced handlers
 #include "WebapiHanoi.h"
+#include "NotReallyPoker.h"
 
 void setupHandlers() {
   // Page handlers
   server.on(F("/"), pageRootHandler);
   server.on(F("/config"), pageConfigHandler);
+  server.on(F("/notreallypoker"), NotReallyPoker::HandleNotReallyPoker_Html);
 
   // Resources:
   server.on(F("/img/Favicon.png"), handleImage_Favicon);
   server.on(F("/img/WemosBoard.gif"), handleImage_WemosBoard);
   server.on(F("/img/bgTriangles.png"), handleImage_BackgroundTiled);
   server.on(F("/common.css"), handleCSS);
+
+  server.on(F("/notreallypoker/style.css"), NotReallyPoker::HandleNotReallyPoker_css);
+  server.on(F("/notreallypoker/common.js"), NotReallyPoker::HandleNotReallyPoker_js);
 
   // Webapi handlers
   server.on(F("/api"), WebapiHandler);
@@ -140,6 +148,8 @@ void setup(void) {
       Serial.println(newIP);
     });
   }
+
+  NotReallyPoker::StartWebSocket();
 }
 
 void loop(void) {
@@ -149,4 +159,6 @@ void loop(void) {
   MDNS.update();
   if (enableOTA)
     ArduinoOTA.handle();
+
+  NotReallyPoker::ProcessWebSocket();
 }

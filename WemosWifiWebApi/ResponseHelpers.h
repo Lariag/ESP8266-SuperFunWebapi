@@ -24,6 +24,10 @@ void sendCSSResponse_P(const char* css) {
   requests++;
   server.send_P(200, "text/css", css);
 }
+void sendJSResponse_P(const char* css) {
+  requests++;
+  server.send_P(200, "text/javascript", css);
+}
 
 void sendHtmlResponse(String html) {
   requests++;
