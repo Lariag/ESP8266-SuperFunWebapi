@@ -1,0 +1,302 @@
+body {
+    font-family: 'Arial';
+}
+
+.content {}
+
+#gameContainer {
+    display: block;
+}
+
+#loginContainer {
+    display: none;
+    width: 400px;
+    height: 250px;
+    margin: auto;
+    border: black solid 1px;
+}
+
+.tableName {
+    display: block;
+    border: black solid 1px;
+    text-align: center;
+}
+
+.tableContainer {
+    width: 200px;
+    position: relative;
+    text-align: center;
+    margin: auto;
+    margin-top: 90px;
+}
+
+.table {
+    overflow: hidden;
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}
+
+#btnNewGame,
+#btnRevealCards {
+    font-size: 1.9em;
+}
+
+#btnRevealCards::after {
+    content: 'Reveal Cards';
+}
+
+#btnNewGame::after {
+    content: 'New votation';
+}
+
+#btnRevealCards.btnConfirmation::after,
+#btnNewGame.btnConfirmation::after {
+    content: 'Confirm?';
+}
+
+.btnConfirmation {}
+
+.tableButton {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: solid 5px;
+    color: white;
+    font-size: 2em;
+    border-color: rgb(82, 131, 255);
+    background-color: rgb(104, 147, 255);
+}
+
+.btnConfirmation {
+    background-color: rgb(56, 165, 17);
+    border-color: rgb(93, 182, 60);
+    animation: color-change-confirmationButton 1s ease-out 500ms both;
+}
+
+@keyframes color-change-confirmationButton {
+    0% {
+        background-color: rgb(56, 165, 17);
+        border-color: rgb(93, 182, 60);
+    }
+    100% {
+        background-color: rgb(104, 147, 255);
+        border-color: rgb(82, 131, 255);
+    }
+}
+
+#tableCardsContainer {
+    position: relative;
+    display: block;
+}
+
+#loadingLayer,
+#errorLayer {
+    top: 0;
+    left: 0;
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000a;
+    z-index: 1000;
+}
+
+.loadingCircle {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-top: 200px;
+    border-radius: 50px;
+    background-color: rgb(59, 126, 226);
+    text-align: center;
+    line-height: 90px;
+    color: white;
+}
+
+#errorLayer {
+    background-color: #f00a;
+}
+
+.ErrorSquare {
+    width: 400px;
+    margin: auto;
+    margin-top: 200px;
+    border-radius: 20px;
+    background-color: rgb(126, 28, 28);
+    text-align: center;
+    padding: 30px;
+    font-size: 2em;
+    color: white;
+}
+
+.rotate {
+    animation: rotation 750ms infinite linear;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+#playerCards,
+#staticsContainer {
+    position: fixed;
+    width: 99%;
+    text-align: center;
+    display: none;
+    opacity: 0;
+    bottom: -200px;
+    transition: all 0.25s linear;
+}
+
+#playerCardsContainer {
+    text-align: left;
+    display: inline-block;
+    position: relative;
+    margin: auto;
+    padding: 20px;
+}
+
+.playerCard,
+.tableCard {
+    width: 35px;
+    height: 58px;
+    margin: 3px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 58px;
+    transition: all 0.25s ease-out;
+    font-size: 1.2em;
+    user-select: none;
+}
+
+.playerCard {
+    display: inline-block;
+    cursor: pointer;
+    margin: 6px;
+}
+
+.tableCard {
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    background: none;
+}
+
+.tableCardBg,
+.playerCardBg {
+    text-align: center;
+    margin: -1 0 0 -1;
+    border: solid 2px rgb(65, 111, 251);
+    border-width: 2px;
+    border-radius: 10px;
+    background-color: white;
+    height: 58px;
+    width: 35px;
+}
+
+.playerCardBg {
+    transition: 'all' 0.25s ease-out;
+}
+
+.tableCardObserver .tableCardBg {
+    border-color: gray;
+    border-style: dashed;
+    background-color: rgb(217, 217, 217);
+}
+
+.tableCardNotSelected .tableCardBg {
+    border: none;
+    padding: 0;
+    margin: 0;
+    background-color: rgb(217, 217, 217);
+    background-image: url('cardDesign.png');
+    background-size: 100%;
+    background-blend-mode: lighten;
+}
+
+.tableCardHidden .tableCardBg {
+    background-color: rgb(162, 214, 254);
+    background-image: url('cardDesign.png');
+    background-size: 100%;
+    background-blend-mode: lighten;
+}
+
+.tableCardLabel {
+    width: 90px;
+    left: -30px;
+    top: -1.1em;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    line-height: 1em;
+}
+
+.playerCardLoading {
+    margin-top: 5px;
+    margin-bottom: -5px;
+}
+
+.playerCardLoading .playerCardBg {
+    box-shadow: 0 0 3px 1px gray;
+}
+
+.playerCardSelected {
+    margin-top: -20px;
+}
+
+.playerCardSelected .playerCardBg {
+    box-shadow: 0 5px 5px 3px gray;
+}
+
+.playerCardHidden .playerCardBg {
+    background-color: rgb(162, 214, 254);
+    background-image: url('cardDesign.png');
+    background-size: 100%;
+    background-blend-mode: lighten;
+    z-index: 3;
+}
+
+.playerCardShowing .playerCardBg {
+    animation: flip-vertical-right 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    z-index: 2;
+}
+
+.playerCardShown .playerCardBg {
+    background: white;
+    z-index: 1;
+}
+
+.tableCardNotSelected .tableCardNumber {
+    font-size: 1.2em;
+    color: transparent;
+    text-shadow: 0 0 0 rgb(171, 171, 171);
+}
+
+.tableCardObserver .tableCardNumber {
+    font-size: 1.6em;
+    color: transparent;
+    text-shadow: 0 0 0 rgb(171, 171, 171);
+}
+
+.tableCardShowning .tableCardBg {
+    animation: flip-vertical-right 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+
+@keyframes flip-vertical-right {
+    0% {
+        transform: rotateY(180deg);
+    }
+    100% {
+        transform: rotateY(0);
+    }
+}

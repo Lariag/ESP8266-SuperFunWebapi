@@ -1,0 +1,54 @@
+<html>
+    <meta charset='UTF-8'>
+
+    <head>
+        <link rel='icon' type='image/png' sizes='32x32' href='favicon.png' />
+        <link rel='stylesheet' href='notreallypoker/style.css' type='text/css' />
+        <script type='text/javascript' src='notreallypoker/common.js'></script>
+    </head>
+
+    <body>
+        <div class='content'>
+            <h2 class='tableName'>Not Really Poker</h2>
+            <div id='loginContainer'>
+                <form target='/'>
+                    <label for='table'>Player Name: </label><input id='inputTable' name='table' />
+                    <label for='player'>Table Name: </label><input id='inputPlayer' name='player' /><br />
+                    <button type='button' onclick='javascript:sendLogin(true)'>Enter as player</button>
+                    <button type='button' onclick='javascript:sendLogin(false)'>Enter as expectator</button>
+                    <div id='loginError'></div>
+                </form>
+            </div>
+            <div id='gameContainer'>
+                <div id='tableName'>
+                    <h1 class='tableName'>This Table</h1>
+                </div>
+                <div class='tableContainer'>
+                    <div id='tableCardsContainer'>
+                    </div>
+                    <div class='table'>
+                        <button id='btnRevealCards' class='tableButton' value='Reveal Cards' onclick='javascript:clickCardRevelation()'></button>
+                        <button id='btnNewGame' class='tableButton' value='New Game' disabled='disabled' onclick='javascript:clickGameReset()'></button>
+                    </div>
+                </div>
+
+                <div id='playerCards'>
+                    <div id='playerCardsContainer'>
+                    </div>
+                </div>
+
+                <div id='staticsContainer'>
+                    TODO: Calculate and fill-in the statics.
+                </div>
+            </div>
+        </div>
+        <div id='errorLayer'>
+            <div class='ErrorSquare'>Error...</div>
+            <div class='ErrorSquare'><button onclick='javascript:showError(false)'>Accept Error and reload page</button></div>
+        </div>
+        <div id='loadingLayer'>
+            <div class='loadingCircle rotate'>Loading...</div>
+        </div>
+    </body>
+
+</html>
