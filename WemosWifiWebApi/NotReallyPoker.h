@@ -6,10 +6,11 @@ namespace NotReallyPoker {
 #include "NotReallyPokerResources.h"
 
 #define PlayerLength 15
-#define TableLength 10
-#define NumPlayers 10
-#define TableDuration 20  // In seconds
+#define TableLength 15
+#define NumPlayers 40
+#define PlayerInactivityInSeconds 20  // In seconds
 #define NumTables 10
+#define TableNull NumTables + 1
 
 WebSocketsServer webSocket = WebSocketsServer(81);
 
@@ -18,17 +19,17 @@ private:
 
 public:
   uint8_t playerId;
+  uint8_t tableIndex;
   char playerName[PlayerLength];
-  char tableName[TableLength];
   int choosenCard;
   bool active;
 
   Player() {
   }
 
-  void SetPlayer(uint8_t id, const char* table, const char* name, bool isExpectator) {
+  void SetPlayer(uint8_t id, uint8_t table, const char* name, bool isExpectator) {
     playerId = id;
-    strcpy(tableName, table);
+    tableIndex = table;
     strcpy(playerName, name);
     choosenCard = isExpectator ? -1 : 0;
     active = true;
@@ -47,6 +48,26 @@ typedef void (*PlayerJsonArrayFunctionPointer)(Player&, JsonArray*);
 class Game {
 private:
   Player players[NumPlayers];
+  char tableNames[NumTables][TableLength];
+
+  uint8_t GetIndexForTableName(const char* tableName, bool registerIfNotExists) {
+    for (int i = 0; i < NumTables; i++) {
+      if (strcasecmp(tableNames[i], tableName) == 0) {
+        return i;
+      }
+    }
+
+    if (registerIfNotExists) {
+      for (int i = 0; i < NumTables; i++) {
+        if (strlen(tableNames[i]) == 0) {
+          strcpy(tableNames[i], tableName);
+          return i;
+        }
+      }
+    }
+
+    return TableNull;
+  }
 
 public:
   Game() {
@@ -63,7 +84,7 @@ public:
 
     int cont = 0;
     for (int i = 0; i < NumPlayers; i++) {
-      if (players[i].active && strcasecmp(players[i].tableName, players[playerIndex].tableName) == 0) {
+      if (players[i].active && players[i].tableIndex == players[playerIndex].tableIndex) {
         cont++;
       }
     }
@@ -85,9 +106,14 @@ public:
       return false;
     }
 
+    uint8_t tableIndex = GetIndexForTableName(tableName, true);
+    if (tableIndex == TableNull) {
+      return false;
+    }
+
     for (int i = 0; i < NumPlayers; i++) {
       if (!players[i].active) {
-        players[i].SetPlayer(playerId, tableName, playerName, isExpectator);
+        players[i].SetPlayer(playerId, tableIndex, playerName, isExpectator);
         return true;
       }
     }
@@ -97,13 +123,22 @@ public:
   void PlayerDisconnected(uint8_t playerId) {
     int i = GetPlayerIndex(playerId);
     if (i >= 0) {
+      int playersInTable = CountPlayersInSameTable(playerId);
+      if (playersInTable == 1) {
+        tableNames[players[i].tableIndex][0] = '\0';
+      }
       players[i].CleanPlayer();
     }
   }
 
   bool PlayerNameExistsInTable(const char* tableName, const char* playerName) {
+    uint8_t tableIndex = GetIndexForTableName(tableName, false);
+    if (tableIndex == TableNull) {
+      return false;
+    }
+
     for (int i = 0; i < NumPlayers; i++) {
-      if (players[i].active && strcasecmp(players[i].tableName, tableName) == 0 && strcasecmp(players[i].playerName, playerName) == 0) {
+      if (players[i].active && players[i].tableIndex == tableIndex && strcasecmp(players[i].playerName, playerName) == 0) {
         return true;
       }
     }
@@ -127,7 +162,7 @@ public:
     }
 
     for (int i = 0; i < NumPlayers; i++) {
-      if (players[i].active && strcasecmp(players[i].tableName, players[playerIndex].tableName) == 0 && players[i].choosenCard > 0) {
+      if (players[i].active && players[i].tableIndex == players[playerIndex].tableIndex && players[i].choosenCard > 0) {
         players[i].choosenCard = 0;
       }
     }
@@ -143,10 +178,15 @@ public:
   }
 
   bool AreAllCardsChosen(char* tableName) {
+    uint8_t tableIndex = GetIndexForTableName(tableName, false);
+    if (tableIndex == TableNull) {
+      return false;
+    }
+
     bool allCardsChoosen = true;
     for (int i = 0; i < NumPlayers; i++) {
-      if (strcasecmp(players[i].tableName, tableName) == 0) {
-        if (players[i].choosenCard <= 0) {
+      if (players[i].tableIndex == tableIndex) {
+        if (players[i].choosenCard == 0) {
           allCardsChoosen = false;
           break;
         }
@@ -162,7 +202,7 @@ public:
     }
 
     for (int i = 0; i < NumPlayers; i++) {
-      if (players[i].active && (players[i].playerId != playerId || includePlayer) && strcasecmp(players[i].tableName, players[playerIndex].tableName) == 0) {
+      if (players[i].active && (players[i].playerId != playerId || includePlayer) && players[i].tableIndex == players[playerIndex].tableIndex) {
         f(players[i]);
       }
     }
@@ -175,7 +215,7 @@ public:
     }
 
     for (int i = 0; i < NumPlayers; i++) {
-      if (players[i].active && (players[i].playerId != playerId || includePlayer) && strcasecmp(players[i].tableName, players[playerIndex].tableName) == 0) {
+      if (players[i].active && (players[i].playerId != playerId || includePlayer) && players[i].tableIndex == players[playerIndex].tableIndex) {
         f(players[i], jArray);
       }
     }
@@ -265,7 +305,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t* payload, size_t length)
                       JsonArray playersInTable = docResponse.createNestedArray(F("tp"));
 
                       PokerGame.ForEachPlayerInSameTable(num, true, &playersInTable, [&](Player& player, JsonArray* jArray) {
-                        Serial.printf("   Adding player %s at %s, %u\n", player.playerName, player.tableName, player.playerId);
+                        Serial.printf("   Adding player %s (%u) at tableIndex %u\n", player.playerName, player.playerId, player.tableIndex);
 
                         JsonObject playerObj = jArray->createNestedObject();
                         playerObj["id"] = player.playerId;
@@ -351,18 +391,18 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t* payload, size_t length)
 
             case 4:  // Restart game
               {
-                if(PokerGame.ResetPlayerTableCards(num)){
+                if (PokerGame.ResetPlayerTableCards(num)) {
 
-                DynamicJsonDocument docResponse(50);
-                docResponse["a"] = action;
-                serializeJson(docResponse, pokerCharBuffer);
-                PokerGame.ForEachPlayerInSameTable(num, true, [&](Player& player) {
-                  webSocket.sendTXT(player.playerId, pokerCharBuffer);
-                });
+                  DynamicJsonDocument docResponse(50);
+                  docResponse["a"] = action;
+                  serializeJson(docResponse, pokerCharBuffer);
+                  PokerGame.ForEachPlayerInSameTable(num, true, [&](Player& player) {
+                    webSocket.sendTXT(player.playerId, pokerCharBuffer);
+                  });
 
-                sendResponseAtTheEnd = false;
-                }else{
-                  errorCode = 31; // Error resetting players cards.
+                  sendResponseAtTheEnd = false;
+                } else {
+                  errorCode = 31;  // Error resetting players cards.
                 }
               }
               break;
@@ -384,10 +424,10 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t* payload, size_t length)
   }
 }
 
-void HandleNotReallyPoker_css(){
+void HandleNotReallyPoker_css() {
   sendCSSResponse_P(notreallypoker_css);
 }
-void HandleNotReallyPoker_js(){
+void HandleNotReallyPoker_js() {
   sendJSResponse_P(notreallypoker_js);
 }
 void HandleNotReallyPoker_Html() {
