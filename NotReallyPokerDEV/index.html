@@ -3,6 +3,7 @@
     <head>
         <meta charset='UTF-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>Not Really Poker</title>
         <link rel='icon' type='image/png' sizes='32x32' href='notreallypoker/Favicon.png' />
         <link rel='stylesheet' href='notreallypoker/style.css' type='text/css' />
         <script type='text/javascript' src='notreallypoker/common.js'></script>
@@ -37,7 +38,23 @@
                 </div>
 
                 <div id='staticsContainer'>
-                    TODO: Calculate and fill-in the statics.
+                    <div class='staticsContent'>
+                        <div class='minCardDiv'>Min
+                            <div id='minCard'></div>
+                        </div>
+                        <div class='averageCardDiv'>AVG
+                            <div id='averageCard'></div>
+                        </div>
+                        <div class='maxCardDiv'>Max
+                            <div id='maxCard'></div>
+                        </div>
+                        <div class='extraCardDiv'>
+                            <div id='coffeCards'></div>
+                            <div id='questionCards'></div>
+                            <div id='noVoteCards'></div>
+                            <div id='aggreementCards'></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="loadingText">Loading...</div>
+            <div class='loadingText'>Loading...</div>
         </div>
         <img style='opacity: 0;' src='notreallypoker/card.gif'></img>
     </body>

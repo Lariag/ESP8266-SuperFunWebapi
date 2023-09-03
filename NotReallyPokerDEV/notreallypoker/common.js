@@ -27,8 +27,16 @@ function switchScreen(showLogin) {
         const urlParams = new URLSearchParams(window.location.search);
         const inputTable = document.getElementById('inputTable');
         const inputPlayer = document.getElementById('inputPlayer');
+
         inputTable.value = urlParams.get('table');
         inputPlayer.value = urlParams.get('player');
+
+        if (inputTable.value.length === 0) {
+            inputTable.focus();
+        } else if (inputPlayer.value.length === 0) {
+            inputPlayer.focus();
+        }
+
         loginContainer.style.display = 'block';
         logoImage.style.display = 'block';
         gameContainer.style.display = 'none';
@@ -299,6 +307,7 @@ function receivedRevealTableCards() {
     switchBottomPanel(isExpectator ? null : playerCards, staticsContainer);
 
     // Show result.
+    calculateStatics();
     RearangeTableCards();
 }
 
@@ -316,7 +325,7 @@ function switchBottomPanel(panelToHide, panelToShow) {
         setTimeout(() => {
             panelToShow.style.display = 'block';
             setTimeout(() => {
-                panelToShow.style.bottom = '40px';
+                panelToShow.style.bottom = '0';
                 panelToShow.style.opacity = 1;
             }, 1);
         }, 400);
@@ -338,6 +347,71 @@ function playerConnected(playerId, name) {
     allPlayers.push(playerObject);
     AddOrGetTableCard(playerObject);
     RearangeTableCards();
+}
+
+function calculateStatics() {
+    let totalPlayersPlaying = 0;
+    let totalNumberCards = 0;
+    let minCard = 999;
+    let maxCard = 0;
+    let coffes = 0;
+    let question = 0;
+    let noVote = 0;
+    let sumCardsValue = 0;
+    let aggreementPercent = 0;
+    let votedCards = {};
+
+    allPlayers.forEach((val, index, array) => {
+        const card = val.card;
+        if (card > 0) {
+            totalPlayersPlaying++;
+
+            if (!votedCards[`${card}`]) {
+                votedCards[`${card}`] = 0;
+            }
+            votedCards[`${card}`]++;
+
+            if (card < 1000) {
+                totalNumberCards++;
+                sumCardsValue += card;
+
+                if (card < minCard) {
+                    minCard = card;
+                }
+                if (card > maxCard) {
+                    maxCard = card;
+                }
+            } else if (card === 1000) {
+                coffes++;
+            } else if (card === 1001) {
+                question++;
+            }
+        } else if (card === 0) {
+            noVote++;
+        }
+    });
+
+    if (totalPlayersPlaying > 0) {
+        let maxVotedProp = 0;
+        let maxVotedCard = 0;
+        for (var prop in votedCards) {
+            if (votedCards[prop] > maxVotedCard) {
+                maxVotedCard = votedCards[prop];
+                maxVotedProp = prop;
+            }
+        }
+        aggreementPercent = Math.round((votedCards[maxVotedProp] / totalPlayersPlaying) * 100);
+    }
+    console.log(votedCards);
+    let average = totalNumberCards === 0 ? 0 : Math.round((sumCardsValue / totalNumberCards) * 10) / 10;
+
+    document.getElementById('maxCard').textContent = `${maxCard === 0 ? '-' : maxCard}`;
+    document.getElementById('minCard').textContent = `${minCard === 999 ? '-' : minCard}`;
+    document.getElementById('averageCard').textContent = `${average === 0 ? '-' : average}`;
+    document.getElementById('coffeCards').innerHTML = `&#9749 ${coffes}`;
+    document.getElementById('questionCards').innerHTML = `&#10068 ${question}`;
+    document.getElementById('noVoteCards').innerHTML = `&#10060 ${noVote}`;
+    document.getElementById('aggreementCards').innerHTML = `&#128077 ${aggreementPercent}%`;
 }
 
 function AddOrGetTableCard(playerObject) {
@@ -518,7 +592,13 @@ function generateAndShowPlayerCards() {
         playerCardsContainer.innerHTML = '';
 
         const cardsAmount = 12;
-        playerCardsContainer.style.minWidth = Math.min(window.innerWidth, cardsAmount * (35 + 12));
+        const minWidth = Math.min(window.innerWidth - 40, cardsAmount * (35 + 12));
+        const cardsRows = Math.ceil((cardsAmount * (35 + 12)) / minWidth) * 70;
+        console.log(`minwidth ${minWidth}, cardsRows ${cardsRows}`);
+
+        playerCardsContainer.style.minWidth = `${minWidth}px`;
+        playerCardsContainer.style.minHeight = `${Math.max(70, cardsRows)}px`;;
+
         for (let i = 2; i <= cardsAmount - 1; i++) {
             const fib = fibonacci(i);
             addPlayerCard(fib, fib, i - 1, cardsAmount);

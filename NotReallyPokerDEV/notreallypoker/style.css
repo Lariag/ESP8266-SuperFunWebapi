@@ -325,20 +325,77 @@ body {
 #playerCards,
 #staticsContainer {
     position: fixed;
-    width: 99%;
+    width: 100%;
     text-align: center;
     display: none;
     opacity: 0;
     bottom: -200px;
     transition: all 0.25s linear;
+    box-shadow: 0 0 10px 10px gray;
+    border-top: rgb(82, 85, 255) solid 2px;
+}
+
+.staticsContent {
+    margin: 0 auto;
+    padding: 1em;
+    width: 400px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.averageCardDiv,
+.minCardDiv,
+.maxCardDiv {
+    display: inline-block;
+    padding: 1em;
+    font-size: 1em;
+    width: 3em;
+    height: 3em;
+    border-radius: 3em;
+    border: solid 6px rgb(100, 102, 255);
+    margin: 0 auto;
+}
+
+.maxCardDiv,
+.minCardDiv {
+    border: solid 6px rgb(101, 104, 255);
+    height: 2em;
+    width: 3.5em;
+    padding: 0.2em 0.2em 0.5em 0.2em;
+}
+
+.minCardDiv {
+    border-right: none;
+    border-radius: 3em 0 0 3em;
+    padding-right: 0;
+    margin-right: -0.3em;
+}
+
+.maxCardDiv {
+    border-left: none;
+    border-radius: 0 3em 3em 0;
+    padding-left: 0;
+    margin-left: -0.3em;
+}
+
+#averageCard {
+    font-size: 1.5em;
+}
+
+.extraCardDiv div {
+    display: inline-block;
+    border: solid 2px rgb(101, 104, 255);
+    border-radius: 0.2em;
+    padding: 0.2em;
+    margin-top: 0.5em;
 }
 
 #playerCardsContainer {
+    padding: 20px;
     text-align: left;
     display: inline-block;
     position: relative;
     margin: auto;
-    padding: 20px;
 }
 
 .playerCard,
@@ -409,13 +466,14 @@ body {
 }
 
 .tableCardLabel {
-    width: 90px;
-    left: -30px;
+    width: 150px;
+    left: -55px;
     top: -1.5em;
     text-align: center;
     margin: auto;
     position: absolute;
     line-height: 1em;
+    white-space: nowrap;
 }
 
 .playerCardLoading {
@@ -499,5 +557,8 @@ body {
         position: relative;
         text-align: center;
         margin: 20vh auto 0;
+    }
+    .staticsContent {
+        width: 90vw;
     }
 }
