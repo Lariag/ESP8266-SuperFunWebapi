@@ -1,23 +1,22 @@
 <html>
-    <meta charset='UTF-8'>
 
     <head>
-        <link rel='icon' type='image/png' sizes='32x32' href='favicon.png' />
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='icon' type='image/png' sizes='32x32' href='notreallypoker/Favicon.png' />
         <link rel='stylesheet' href='notreallypoker/style.css' type='text/css' />
         <script type='text/javascript' src='notreallypoker/common.js'></script>
     </head>
 
     <body>
         <div class='content'>
-            <h2 class='tableName'>Not Really Poker</h2>
+            <img id='logoImage' src='notreallypoker/logo.png'></img>
             <div id='loginContainer'>
-                <form target='/'>
-                    <label for='table'>Player Name: </label><input id='inputTable' name='table' />
-                    <label for='player'>Table Name: </label><input id='inputPlayer' name='player' /><br />
-                    <button type='button' onclick='javascript:sendLogin(true)'>Enter as player</button>
-                    <button type='button' onclick='javascript:sendLogin(false)'>Enter as expectator</button>
-                    <div id='loginError'></div>
-                </form>
+                <label for='player'>Table Name</label><input id='inputTable' name='player' placeholder='Table Name' maxlength='15' /><br />
+                <label for='table'>Player Name</label><input id='inputPlayer' name='table' placeholder='Player Name' maxlength='15' /><br />
+                <button type='button' class='loginButton' onclick='javascript:sendLogin(true)'>&#127183;&ensp;Enter as player</button>
+                <button type='button' class='loginButton' onclick='javascript:sendLogin(false)'>&#128064;&nbsp;Enter as expectator</button>
+                <div id='loginError'></div>
             </div>
             <div id='gameContainer'>
                 <div id='tableName'>

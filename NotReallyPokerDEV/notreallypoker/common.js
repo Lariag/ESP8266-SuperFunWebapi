@@ -29,9 +29,11 @@ function switchScreen(showLogin) {
         inputPlayer.value = urlParams.get('player');
         loginContainer.style.display = 'block';
         gameContainer.style.display = 'none';
+        document.getElementById('logoImage').style.display = 'block';
     } else {
         loginContainer.style.display = 'none';
         gameContainer.style.display = 'block';
+        document.getElementById('logoImage').style.display = 'none';
         if (!isExpectator) {
             switchBottomPanel(null, playerCards);
             setTimeout(generateAndShowPlayerCards, 410);
@@ -60,7 +62,9 @@ function showError(text) {
 }
 
 function showLoginError(text) {
-    document.getElementById('loginError').textContent = text;
+    loginError = document.getElementById('loginError');
+    loginError.textContent = text;
+    loginError.style.display = text.length == 0 ? 'none' : 'block'
 }
 
 function webSocketConect() {
@@ -192,13 +196,13 @@ function sendLogin(asPlayer) {
         showLoginError('Both table and user must be introduced.');
         return;
     }
-    if (inputTable.value.length > 10 || inputPlayer.value.length > 105) {
-        showLoginError('Player and table name must be 10 characters or shorter.');
+    if (inputTable.value.length > 14 || inputPlayer.value.length > 14) {
+        showLoginError('Both player and table name must be 15 characters or shorter.');
         return;
     }
 
     isExpectator = !asPlayer;
-    document.getElementById('tableName').firstElementChild.textContent = inputTable.value;
+    document.getElementById('tableName').firstElementChild.textContent = `${inputTable.value} - ${inputPlayer.value}`;
     let loginMessage = { action: 1, table: inputTable.value, player: inputPlayer.value, expectator: !asPlayer };
     sendJson(loginMessage, true);
 }
@@ -309,7 +313,7 @@ function switchBottomPanel(panelToHide, panelToShow) {
         setTimeout(() => {
             panelToShow.style.display = 'block';
             setTimeout(() => {
-                panelToShow.style.bottom = '100px';
+                panelToShow.style.bottom = '40px';
                 panelToShow.style.opacity = 1;
             }, 1);
         }, 400);
@@ -396,7 +400,7 @@ function RemoveTableCard(playerId) {
 }
 
 function RearangeTableCards() {
-    const radius = 160;
+    const radius = 180;
 
     allPlayers.forEach((val, index, array) => {
 

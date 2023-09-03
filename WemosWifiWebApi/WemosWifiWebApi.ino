@@ -49,6 +49,9 @@ void setupHandlers() {
 
   server.on(F("/notreallypoker/style.css"), NotReallyPoker::HandleNotReallyPoker_css);
   server.on(F("/notreallypoker/common.js"), NotReallyPoker::HandleNotReallyPoker_js);
+  server.on(F("/notreallypoker/logo.png"), NotReallyPoker::HandleNotreallypoker_Logo);
+  server.on(F("/notreallypoker/card.gif"), NotReallyPoker::HandleNotreallypoker_Card);
+  server.on(F("/notreallypoker/Favicon.png"), handleImage_Favicon);
 
   // Webapi handlers
   server.on(F("/api"), WebapiHandler);

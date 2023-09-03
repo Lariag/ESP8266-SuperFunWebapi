@@ -5,8 +5,8 @@ namespace NotReallyPoker {
 
 #include "NotReallyPokerResources.h"
 
-#define PlayerLength 15
-#define TableLength 15
+#define PlayerLength 16
+#define TableLength 16
 #define NumPlayers 40
 #define PlayerInactivityInSeconds 20  // In seconds
 #define NumTables 10
@@ -432,6 +432,12 @@ void HandleNotReallyPoker_js() {
 }
 void HandleNotReallyPoker_Html() {
   sendHtmlResponse(notreallypoker_html);
+}
+void HandleNotreallypoker_Logo() {
+  sendResourceRequest(true, png, notreallypoker_Logo_BinaryImage, notreallypoker_Logo_BinarySize);
+}
+void HandleNotreallypoker_Card() {
+  sendResourceRequest(true, gif, notreallypoker_Card_BinaryImage, notreallypoker_Card_BinarySize);
 }
 
 void StartWebSocket() {
