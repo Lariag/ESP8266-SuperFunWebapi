@@ -12,7 +12,11 @@ namespace NotReallyPoker {
 #define NumTables 10
 #define TableNull NumTables + 1
 
-WebSocketsServer webSocket = WebSocketsServer(81);
+#if DEV
+WebSocketsServer webSocket = WebSocketsServer(8088);
+#else
+WebSocketsServer webSocket = WebSocketsServer(8087);
+#endif
 
 class Player {
 private:

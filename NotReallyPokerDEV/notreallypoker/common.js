@@ -79,8 +79,8 @@ function showLoginError(text) {
 
 function webSocketConect() {
     showLoading(true);
-    //connection = new WebSocket('ws:' + location.hostname + ':81/', ['NotReallyPokerBack']);
-    connection = new WebSocket('ws:192.168.1.186:81', ['arduino']);
+    connection = new WebSocket('ws:' + location.hostname + ':8087/', ['arduino']);
+    //connection = new WebSocket('ws:192.168.1.186:8088', ['arduino']);
     connection.onerror = function (error) {
         showError(`Error: ${error}`);
         isConnected = false;

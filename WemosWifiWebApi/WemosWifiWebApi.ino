@@ -100,8 +100,10 @@ void setupHandlers() {
 void setup(void) {
   pinMode(led, OUTPUT);
 
-  if (enableSerial)
+  if (enableSerial) {
     Serial.begin(115200);
+    Serial.print(F("Starting serial @115200"));
+  }
 
   WiFi.mode(WIFI_STA);
   WiFi.config(staticIp, gateway, subnet);
