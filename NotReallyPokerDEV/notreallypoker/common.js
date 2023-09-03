@@ -5,6 +5,7 @@ let loginContainer;
 let gameContainer;
 let loadingLayer;
 let errorLayer;
+let errorText;
 let playerCards;
 let playerCardsContainer;
 let tableCardsContainer;
@@ -21,6 +22,7 @@ let isExpectator = false;
 let loadingStack = 0;
 
 function switchScreen(showLogin) {
+
     if (showLogin) {
         const urlParams = new URLSearchParams(window.location.search);
         const inputTable = document.getElementById('inputTable');
@@ -28,12 +30,12 @@ function switchScreen(showLogin) {
         inputTable.value = urlParams.get('table');
         inputPlayer.value = urlParams.get('player');
         loginContainer.style.display = 'block';
+        logoImage.style.display = 'block';
         gameContainer.style.display = 'none';
-        document.getElementById('logoImage').style.display = 'block';
     } else {
         loginContainer.style.display = 'none';
         gameContainer.style.display = 'block';
-        document.getElementById('logoImage').style.display = 'none';
+        logoImage.style.display = 'none';
         if (!isExpectator) {
             switchBottomPanel(null, playerCards);
             setTimeout(generateAndShowPlayerCards, 410);
@@ -57,7 +59,7 @@ function showError(text) {
         location.reload();
     } else {
         errorLayer.style.display = 'block';
-        errorLayer.firstElementChild.textContent = text;
+        errorText.textContent = text;
     }
 }
 
@@ -89,13 +91,14 @@ function webSocketConect() {
 
     function messageReceived(evt) {
         console.log('MESSAGE: ' + evt.data);
-        showLoading(false);
         let msg = JSON.parse(evt.data);
 
+        showLoading(false);
         if (msg.yourId !== undefined) {
             console.log('Connection open. Id: ' + myId);
             isConnected = true;
             myId = msg.yourId;
+            switchScreen(true);
         } else if (msg.disconnectedId !== undefined) {
             playerDisconnected(msg.disconnectedId);
         } else if (msg.connectedId !== undefined) {
@@ -196,7 +199,7 @@ function sendLogin(asPlayer) {
         showLoginError('Both table and user must be introduced.');
         return;
     }
-    if (inputTable.value.length > 14 || inputPlayer.value.length > 14) {
+    if (inputTable.value.length > 15 || inputPlayer.value.length > 15) {
         showLoginError('Both player and table name must be 15 characters or shorter.');
         return;
     }
@@ -528,6 +531,7 @@ function generateAndShowPlayerCards() {
 window.onload = function () {
     console.log('Windowd Loaded');
     loginContainer = document.getElementById('loginContainer');
+    logoImage = document.getElementById('logoImage');
     gameContainer = document.getElementById('gameContainer');
     tableCardsContainer = document.getElementById('tableCardsContainer');
     playerCards = document.getElementById('playerCards');
@@ -537,8 +541,8 @@ window.onload = function () {
     btnRevealCards = document.getElementById('btnRevealCards');
     loadingLayer = document.getElementById('loadingLayer');
     errorLayer = document.getElementById('errorLayer');
+    errorText = document.getElementById('errorText');
 
-    switchScreen(true);
     RearangeTableCards();
     webSocketConect();
 };

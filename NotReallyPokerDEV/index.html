@@ -42,12 +42,21 @@
             </div>
         </div>
         <div id='errorLayer'>
-            <div class='ErrorSquare'>Error...</div>
-            <div class='ErrorSquare'><button onclick='javascript:showError(false)'>Accept Error and reload page</button></div>
+            <div class='errorContainer'>
+                <div id='errorText' class='errorSquare'>Error...</div>
+                <button class='errorButton' onclick='javascript:showError(false)'>Accept Error and reload page</button>
+            </div>
         </div>
         <div id='loadingLayer'>
-            <div class='loadingCircle rotate'>Loading...</div>
+            <div class='loadingCircles loadingCircle1 rotate'>
+                <div class='loadingCircles loadingCircle2 rotate'>
+                    <div class='loadingCircles loadingCircle3 rotate'>
+                    </div>
+                </div>
+            </div>
+            <div class="loadingText">Loading...</div>
         </div>
+        <img style='opacity: 0;' src='notreallypoker/card.gif'></img>
     </body>
 
 </html>
