@@ -79,8 +79,8 @@ function showLoginError(text) {
 
 function webSocketConect() {
     showLoading(true);
-    connection = new WebSocket('ws:' + location.hostname + ':8087/', ['arduino']);
-    //connection = new WebSocket('ws:192.168.1.186:8088', ['arduino']);
+    //connection = new WebSocket('ws:' + location.hostname + ':8087/', ['arduino']);
+    connection = new WebSocket('ws:192.168.1.186:81', ['arduino']);
     connection.onerror = function (error) {
         showError(`Error: ${error}`);
         isConnected = false;
@@ -244,7 +244,7 @@ function clickCardRevelation() {
         btnRevealCards.classList.add('btnConfirmation');
         setTimeout(() => {
             btnRevealCards.classList.remove('btnConfirmation');
-        }, 1100);
+        }, 1500);
     }
 }
 
@@ -282,9 +282,9 @@ function receivedResetGame() {
 
     // Switch bottom content.
     switchBottomPanel(staticsContainer, isExpectator ? null : playerCards);
-
     RearangeTableCards();
-    setTimeout(generateAndShowPlayerCards, 410);
+
+    generateAndShowPlayerCards();
 }
 
 function receivedRevealTableCards() {
@@ -567,7 +567,7 @@ function addPlayerCard(text, number, index = 0, totalCards = 1) {
     playerCardsContainer.appendChild(playerCard);
     setTimeout(() => {
         playerCard.style.marginRight = '5px';
-    }, 500 + 50 * index);
+    }, 350 + 500 + 50 * index);
 
     setTimeout(() => {
         playerCard.classList.add('playerCardShowing');
@@ -575,7 +575,7 @@ function addPlayerCard(text, number, index = 0, totalCards = 1) {
             cardNumber.innerHTML = text;
             playerCard.classList.add('playerCardShown');
         }, 200);
-    }, 700 + 50 * index + 50 * totalCards);
+    }, 350 + 500 + 50 * index + 50 * totalCards);
 }
 
 function fibonacci(n) {

@@ -75,6 +75,7 @@ body {
     border: none;
     border-radius: 0.2em;
     padding: 0 1em;
+    cursor: pointer;
 }
 
 #loginContainer button:hover {
@@ -124,6 +125,7 @@ body {
 #btnNewGame,
 #btnRevealCards {
     font-size: 1.9em;
+    cursor: pointer;
 }
 
 #btnRevealCards::after {
@@ -149,6 +151,15 @@ body {
     font-size: 2em;
     border-color: rgb(82, 131, 255);
     background-color: rgb(104, 147, 255);
+    transition: 0.25s;
+}
+
+.tableButton:active {
+    background-color: rgb(41, 195, 54);
+}
+
+.tableButton:hover {
+    background-color: rgb(82, 85, 255);
 }
 
 .btnConfirmation {
@@ -158,12 +169,13 @@ body {
 }
 
 @keyframes color-change-confirmationButton {
-    0% {
+    0%,
+    50% {
         background-color: rgb(56, 165, 17);
         border-color: rgb(93, 182, 60);
     }
     100% {
-        background-color: rgb(104, 147, 255);
+        background-color: rgb(82, 85, 255);
         border-color: rgb(82, 131, 255);
     }
 }
@@ -277,6 +289,10 @@ body {
     position: relative;
 }
 
+.errorButton {
+    cursor: pointer;
+}
+
 .errorContainer .errorSquare {
     display: block;
     margin: 0 auto;
@@ -333,6 +349,7 @@ body {
     transition: all 0.25s linear;
     box-shadow: 0 0 10px 10px gray;
     border-top: rgb(82, 85, 255) solid 2px;
+    user-select: none;
 }
 
 .staticsContent {
@@ -366,14 +383,14 @@ body {
 
 .minCardDiv {
     border-right: none;
-    border-radius: 3em 0 0 3em;
+    border-radius: 3em 0.5em 0.5em 3em;
     padding-right: 0;
     margin-right: -0.3em;
 }
 
 .maxCardDiv {
     border-left: none;
-    border-radius: 0 3em 3em 0;
+    border-radius: 0.5em 3em 3em 0.5em;
     padding-left: 0;
     margin-left: -0.3em;
 }
