@@ -96,15 +96,21 @@ body {
     padding: 1em;
 }
 
-.tableName {
+#tableNameContainer {
     width: 100%;
     margin: 0 auto 2em;
-    display: block;
     border-bottom: rgb(82, 85, 255) solid 2px;
     text-align: center;
+    display: block;
     background-color: white;
     box-shadow: 0 0 10px 10px gray;
     line-height: 2em;
+}
+
+.tableName {
+    margin: auto;
+    line-height: 2em;
+    padding-left: 3em;
 }
 
 .tableContainer {
@@ -329,6 +335,68 @@ body {
     animation: rotation 2s infinite linear;
 }
 
+.topbarButton {
+    border: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 0;
+    background-size: 100%;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center;
+    float: right;
+    height: 4.75em;
+    width: 4.75em;
+    cursor: pointer;
+    transition: all 0.25s linear;
+}
+
+.topbarButton:hover {
+    background-color: rgb(223, 223, 223);
+}
+
+.iconShare {
+    background-image: url('share.gif');
+    color: white;
+}
+
+.iconExit {
+    background-image: url('exitTable.gif');
+}
+
+.btnShareConfirmation,
+.btnShareConfirmation:hover {
+    background-color: rgb(104, 147, 255);
+    width: 15em;
+    background-size: 0%;
+    font-weight: bold;
+}
+
+.btnShareConfirmation::before {
+    content: 'Copied to clipboard'
+}
+
+@keyframes color-change-shareButton {
+    0% {
+        width: 4.75em;
+        background-color: rgb(197, 255, 176);
+    }
+    10% {
+        background-size: 0%;
+    }
+    50% {
+        background-size: 0%;
+        width: 9em;
+        background-color: rgb(197, 255, 176);
+    }
+    100% {
+        background-size: 100%;
+        width: 4.75em;
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+
 @keyframes rotation {
     0% {
         transform: rotate(0deg);
@@ -375,7 +443,7 @@ body {
 
 .maxCardDiv,
 .minCardDiv {
-    border: solid 6px rgb(101, 104, 255);
+    border: solid 6px rgb(100, 102, 255);
     height: 2em;
     width: 3.5em;
     padding: 0.2em 0.2em 0.5em 0.2em;
@@ -401,7 +469,7 @@ body {
 
 .extraCardDiv div {
     display: inline-block;
-    border: solid 2px rgb(101, 104, 255);
+    border: solid 2px rgb(100, 102, 255);
     border-radius: 0.2em;
     padding: 0.2em;
     margin-top: 0.5em;

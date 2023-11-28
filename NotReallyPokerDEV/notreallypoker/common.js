@@ -19,6 +19,7 @@ let allPlayers = new Array(); // Properties: id, name, card.
 let areCardsRevealed = false
 let isRevealCardsSent = false;
 let isExpectator = false;
+let currentTable = '';
 
 let loadingStack = 0;
 
@@ -29,7 +30,8 @@ function switchScreen(showLogin) {
         const inputTable = document.getElementById('inputTable');
         const inputPlayer = document.getElementById('inputPlayer');
 
-        inputTable.value = urlParams.get('table');
+        currentTable = urlParams.get('table')
+        inputTable.value = currentTable;
         inputPlayer.value = urlParams.get('player');
 
         if (inputTable.value.length === 0) {
@@ -222,9 +224,10 @@ function sendLogin(asPlayer) {
         return;
     }
 
+    currentTable = inputTable.value;
     isExpectator = !asPlayer;
-    document.getElementById('tableName').firstElementChild.textContent = `${inputTable.value} - ${inputPlayer.value}`;
-    let loginMessage = { action: 1, table: inputTable.value, player: inputPlayer.value, expectator: !asPlayer };
+    document.getElementById('tableNameContainer').lastElementChild.textContent = `${inputTable.value} - ${inputPlayer.value}`;
+    let loginMessage = { action: 1, table: currentTable, player: inputPlayer.value, expectator: !asPlayer };
     sendJson(loginMessage, true);
 }
 
@@ -616,6 +619,47 @@ function generateAndShowPlayerCards() {
         addPlayerCard('&#9749;', 1000, 10, cardsAmount);
         addPlayerCard('&#10068;', 1001, 11, cardsAmount);
     }
+}
+
+function copyToClipboardWithTrick(textToCopy) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(textToCopy);
+    } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = textToCopy;
+
+        textArea.style.position = 'absolute';
+        textArea.style.left = '-90000px';
+
+        document.body.prepend(textArea);
+        textArea.select();
+
+        try {
+            document.execCommand('copy');
+        } catch (error) {
+            console.error(error);
+        } finally {
+            textArea.remove();
+        }
+    }
+}
+
+function onExitTable() {
+    location.reload();
+}
+
+function onShareTable() {
+    let shareLink = location.host.length > 0 ? 'http://' + location.host + '/notreallypoker' : location;
+    shareLink += '?table=' + currentTable;
+    copyToClipboardWithTrick(shareLink);
+    shareButton = document.getElementById('shareButton');
+    if (shareButton.classList.contains('btnShareConfirmation')) {
+        shareButton.classList.remove('btnShareConfirmation');
+    }
+    shareButton.classList.add('btnShareConfirmation');
+    setTimeout(() => {
+        shareButton.classList.remove('btnShareConfirmation');
+    }, 1200);
 }
 
 window.onload = function () {

@@ -11,7 +11,7 @@
 
     <body>
         <div class='content'>
-            <img id='logoImage' src='notreallypoker/logo.png' draggable="false"></img>
+            <img id='logoImage' src='notreallypoker/logo.png' draggable='false'></img>
             <div id='loginContainer'>
                 <label for='player'>Table Name</label><input id='inputTable' name='player' placeholder='Table Name' maxlength='15' /><br />
                 <label for='table'>Player Name</label><input id='inputPlayer' name='table' placeholder='Player Name' maxlength='15' /><br />
@@ -20,7 +20,9 @@
                 <div id='loginError'></div>
             </div>
             <div id='gameContainer'>
-                <div id='tableName'>
+                <div id='tableNameContainer'>
+                    <button class='topbarButton iconExit' title='Exit table' onclick='onExitTable()'></button>
+                    <button class='topbarButton iconShare' id='shareButton' title='Share table' onclick='onShareTable()'></button>
                     <h1 class='tableName'>This Table</h1>
                 </div>
                 <div class='tableContainer'>

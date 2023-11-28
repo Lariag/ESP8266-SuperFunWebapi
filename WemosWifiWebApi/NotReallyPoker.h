@@ -485,6 +485,12 @@ void HandleNotreallypoker_Logo() {
 void HandleNotreallypoker_Card() {
   sendResourceRequest(true, gif, notreallypoker_Card_BinaryImage, notreallypoker_Card_BinarySize);
 }
+void HandleNotreallypoker_IconExit() {
+  sendResourceRequest(true, gif, notreallypoker_IconExit_BinaryImage, notreallypoker_IconExit_BinarySize);
+}
+void HandleNotreallypoker_IconShare() {
+  sendResourceRequest(true, gif, notreallypoker_IconShare_BinaryImage, notreallypoker_IconShare_BinarySize);
+}
 
 void StartWebSocket() {
   webSocket.begin();
