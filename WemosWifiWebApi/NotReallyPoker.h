@@ -1,3 +1,4 @@
+#include "WebSockets.h"
 #ifndef NOTREALLYPKER_CPP
 #define NOTREALLYPKER_CPP
 
@@ -8,7 +9,7 @@ namespace NotReallyPoker {
 #define PlayerLength 16
 #define TableLength 16
 #define NumPlayers 40
-#define PlayerInactivityInSeconds 20  // In seconds
+#define PlayerInactivityInSeconds 60  // In seconds
 #define NumTables 10
 #define TableNull NumTables + 1
 
@@ -27,6 +28,7 @@ public:
   char playerName[PlayerLength];
   int choosenCard;
   bool active;
+  uint8_t lastSecondActive;
 
   Player() {
   }
@@ -37,6 +39,11 @@ public:
     strcpy(playerName, name);
     choosenCard = isExpectator ? -1 : 0;
     active = true;
+    UpdatePlayerActivity();
+  }
+
+  void UpdatePlayerActivity() {
+    lastSecondActive = now() % 256;
   }
 
   void CleanPlayer() {
@@ -120,6 +127,15 @@ public:
         players[i].SetPlayer(playerId, tableIndex, playerName, isExpectator);
         return true;
       }
+    }
+    return false;
+  }
+
+  bool UpdatePlayerActivity(uint8_t playerId) {
+    int i = GetPlayerIndex(playerId);
+    if (i >= 0) {
+      players[i].UpdatePlayerActivity();
+      return true;
     }
     return false;
   }
@@ -224,6 +240,20 @@ public:
       }
     }
   }
+
+  void ClearIdlePlayers() {
+    uint16_t currentSeconds = now() % 256;
+
+    for (int i = 0; i < NumPlayers; i++) {
+      if (players[i].active) {
+        uint16_t adjustedSeconds = players[i].lastSecondActive > currentSeconds ? currentSeconds + 256 : currentSeconds;
+        if (adjustedSeconds - players[i].lastSecondActive > PlayerInactivityInSeconds) {
+          Serial.printf("[%u] ClearIdlePlayers 1: currentSeconds [%u], lastSecondActive [%u], adjustedSeconds [%u]\n", players[i].playerId, currentSeconds, players[i].lastSecondActive, adjustedSeconds);
+          PlayerDisconnected(players[i].playerId);
+        }
+      }
+    }
+  }
 };
 
 Game PokerGame;
@@ -232,7 +262,18 @@ const unsigned int pokerCharBufferSize = 1000;
 char pokerCharBuffer[pokerCharBufferSize] = { "\0" };
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t* payload, size_t length) {
+  PokerGame.ClearIdlePlayers();
   switch (type) {
+    case WStype_BIN:
+      {
+        PokerGame.UpdatePlayerActivity(num);
+        break;
+      }
+    case WStype_ERROR:
+      {
+        Serial.printf("[%u] WStype_ERROR!\n", num);
+        break;
+      }
     case WStype_DISCONNECTED:
       {
         Serial.printf("[%u] Disconnected!\n", num);
@@ -257,8 +298,9 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t* payload, size_t length)
         IPAddress ip = webSocket.remoteIP(num);
         Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
 
-        StaticJsonDocument<20> doc;
+        StaticJsonDocument<50> doc;
         doc["yourId"] = num;
+        doc["ping"] = (PlayerInactivityInSeconds / 3) * 2;
         serializeJson(doc, pokerCharBuffer);
         webSocket.sendTXT(num, pokerCharBuffer);
       }

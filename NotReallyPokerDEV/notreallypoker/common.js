@@ -1,6 +1,7 @@
 let connection;
 let isConnected = false;
 let myId = 0;
+let ping = 60000;
 let loginContainer;
 let gameContainer;
 let loadingLayer;
@@ -77,10 +78,17 @@ function showLoginError(text) {
     loginError.style.display = text.length == 0 ? 'none' : 'block'
 }
 
+function sendPing() {
+    if (ping >= 10000) {
+        connection.send(new Uint8Array([0x09]));
+        setTimeout(sendPing, ping);
+    }
+}
+
 function webSocketConect() {
     showLoading(true);
-    //connection = new WebSocket('ws:' + location.hostname + ':8087/', ['arduino']);
-    connection = new WebSocket('ws:192.168.1.186:81', ['arduino']);
+    connection = new WebSocket('ws:' + location.hostname + ':8087/', ['arduino']);
+    // connection = new WebSocket('ws:192.168.1.186:8088', ['arduino']);
     connection.onerror = function (error) {
         showError(`Error: ${error}`);
         isConnected = false;
@@ -106,6 +114,8 @@ function webSocketConect() {
             console.log('Connection open. Id: ' + myId);
             isConnected = true;
             myId = msg.yourId;
+            ping = msg['ping'] * 1000;
+            setTimeout(sendPing, ping);
             switchScreen(true);
         } else if (msg.disconnectedId !== undefined) {
             playerDisconnected(msg.disconnectedId);
