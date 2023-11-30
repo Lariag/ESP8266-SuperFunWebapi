@@ -58,22 +58,22 @@ void WebapiFoodRecipes_CookingPrice() {
   sendJsonResponse_P(json_FoodRecipes_CookingPrice);
 }
 
-void WebapiRealState_Houses(){
+void WebapiRealState_Houses() {
   sendJsonResponse_P(json_RealState_Houses);
 }
 
-void WebapiRealState_Additions(){
+void WebapiRealState_Additions() {
   sendJsonResponse_P(json_RealState_Additions);
 }
 
-void WebapiRealState_Neighborhoods(){
+void WebapiRealState_Neighborhoods() {
   sendJsonResponse_P(json_RealState_Neighborhoods);
 }
-void WebapiPhrases_Mariano_All(){
+void WebapiPhrases_Mariano_All() {
   sendJsonResponse_P(json_Phrases_Mariano);
 }
 
-void WebapiPhrases_Mariano_RandomOne(){
+void WebapiPhrases_Mariano_RandomOne() {
   sendJsonResponse_P(json_Phrases_Mariano_Separated[random(json_Phrases_MarianoSeparated_Count)]);
 }
 
@@ -86,7 +86,7 @@ void WebapiHandler() {
 void handleNotFoundPlainText() {
   requestsInvalid++;
 
-  String message = "Not Found\n\n";
+  String message = "Status code: 404 Not Found\n\n";
   message += "URI: ";
   message += server.uri();
   message += "\nMethod: ";
@@ -98,6 +98,27 @@ void handleNotFoundPlainText() {
     message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
   }
   server.send(404, "text/plain", message);
+}
+
+void WebapiCoffe_AddSalt() {
+  coffeRequests++;
+
+  String message = "Status code: 406 Not Acceptable\n\n";
+  message += "URI: ";
+  message += server.uri();
+  message += "\nMethod: BREW\n";
+  message += "\Accepted additions: Cream, Whole-milk, Vanilla, Raspberry, Whisky, Aquavit.";
+  server.send(406, "text/plain", message);
+}
+
+void WebapiCoffe_MakeCoffe() {
+  coffeRequests++;
+
+  String message = "Status code: 418 I'm a teapot\n''may be short and stout''\n\n";
+  message += "URI: ";
+  message += server.uri();
+  message += "\nMethod: BREW";
+  server.send(418, "text/plain", message);
 }
 
 void handleNotFound() {

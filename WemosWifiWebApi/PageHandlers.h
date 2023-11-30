@@ -48,6 +48,11 @@ void pageRootHandler() {
   sendHtmlResponse(GetNiceHTMLTemplace(F(
     "<br/>Available APIs:<br/><ul>"
 
+    "<li>Coffe preparation:<ul>"
+    "  <li><a target='_blank' href='/api/CoffePreparation/AddSalt'>/api/CoffePreparation/AddSalt</a></li>"
+    "  <li><a target='_blank' href='/api/CoffePreparation/MakeCoffe'>/api/CoffePreparation/MakeCoffe</a></li>"
+    "</ul></li>"
+
     "<li>Food Recipes:<ul>"
     "  <li><a target='_blank' href='/api/foodrecipes/Food.json'>/api/foodrecipes/Food.json</a></li>"
     "  <li><a target='_blank' href='/api/foodrecipes/Recipes.json'>/api/foodrecipes/Recipes.json</a></li>"
@@ -105,23 +110,23 @@ void pageRootHandler() {
 }
 
 const PROGMEM char pageCSS[] = {
-           ".bodyClass {background-color:#222; margin:0; background-size: 3em; background-image: url('/img/bgTriangles.png'); background-repeat: repeat; color:#eee; font-family:'Arial'; font-size:1em}\n"
-           ".pageHeader { padding: 8px; margin: -8px 0; background-color: #272727 }"
-           ".pageContainer {margin: 8px;}"
-           "a {color:#fca503}\n"
-           "a:visited {color:#fca503}\n"
-           "a:hover {color:#fcba03;}\n"
-           ".mainmenu {font-size:.8em}\n"
-           "ul {margin-bottom: 10px}\n"
-           "ul li ul li {font-size:.9em}\n"
-           "ul li ul li ul li {font-size:.8em}\n"
-           ".rainbow-element-background { animation: rainbowBackground 5s linear infinite;}"
-           "@keyframes rainbowBackground {0% { background: #ff000057; /* Red */ } 12.5% { background: #ff660057; /* Orange */ } 25% { background: #ffff0057; /* Yellow */ } 37.5% { background: #00ff0057; /* Green */ } 	50% { background: #00ffff57; /* Cyan */ } 62.5% { background: #0000ff57; /* Blue */ } 75% { background: #8a2be257; /* Indigo */ } 87.5% { background: #9400d357; /* Violet */ } 100% { background: #ff000057; /* Back to Red */ } }"
-           ".rainbow-gradient-text:hover { background: repeating-linear-gradient(45deg, #ff0000, #ff6600, #ffff00, #00ff00, #00ffff, #0000ff, #8a2be2, #9400d3, #ff0000, #ff6600, #ffff00, #00ff00); background-size: 300px 100%; background-origin: border-box; background-clip: content-box; animation: rainbowGradient 10s linear infinite; color: transparent; background-clip: text; }"
-           "@keyframes rainbowGradient { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }"
-           };
+  ".bodyClass {background-color:#222; margin:0; background-size: 3em; background-image: url('/img/bgTriangles.png'); background-repeat: repeat; color:#eee; font-family:'Arial'; font-size:1em}\n"
+  ".pageHeader { padding: 8px; margin: -8px 0; background-color: #272727 }"
+  ".pageContainer {margin: 8px;}"
+  "a {color:#fca503}\n"
+  "a:visited {color:#fca503}\n"
+  "a:hover {color:#fcba03;}\n"
+  ".mainmenu {font-size:.8em}\n"
+  "ul {margin-bottom: 10px}\n"
+  "ul li ul li {font-size:.9em}\n"
+  "ul li ul li ul li {font-size:.8em}\n"
+  ".rainbow-element-background { animation: rainbowBackground 5s linear infinite;}"
+  "@keyframes rainbowBackground {0% { background: #ff000057; /* Red */ } 12.5% { background: #ff660057; /* Orange */ } 25% { background: #ffff0057; /* Yellow */ } 37.5% { background: #00ff0057; /* Green */ } 	50% { background: #00ffff57; /* Cyan */ } 62.5% { background: #0000ff57; /* Blue */ } 75% { background: #8a2be257; /* Indigo */ } 87.5% { background: #9400d357; /* Violet */ } 100% { background: #ff000057; /* Back to Red */ } }"
+  ".rainbow-gradient-text:hover { background: repeating-linear-gradient(45deg, #ff0000, #ff6600, #ffff00, #00ff00, #00ffff, #0000ff, #8a2be2, #9400d3, #ff0000, #ff6600, #ffff00, #00ff00); background-size: 300px 100%; background-origin: border-box; background-clip: content-box; animation: rainbowGradient 10s linear infinite; color: transparent; background-clip: text; }"
+  "@keyframes rainbowGradient { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }"
+};
 
-void handleCSS(){
+void handleCSS() {
   sendCSSResponse_P(pageCSS);
 }
 

@@ -22,6 +22,7 @@
 
 unsigned long requests = 0;
 unsigned long requestsInvalid = 0;
+unsigned long coffeRequests = 0;
 
 ESP8266WebServer server(80);
 
@@ -57,6 +58,7 @@ void setupHandlers() {
 
   // Webapi handlers
   server.on(F("/api"), WebapiHandler);
+  server.on(F("/api/"), WebapiHandler);
 
   server.on(F("/api/hanoi"), WebapiHanoiHandle);
 
@@ -86,6 +88,9 @@ void setupHandlers() {
 
   server.on(F("/api/pharses/mariano"), WebapiPhrases_Mariano_All);
   server.on(F("/api/pharses/mariano/random"), WebapiPhrases_Mariano_RandomOne);
+
+  server.on(F("/api/CoffePreparation/AddSalt"), WebapiCoffe_AddSalt);
+  server.on(F("/api/CoffePreparation/MakeCoffe"), WebapiCoffe_MakeCoffe);
 
   server.onNotFound(handleNotFound);
 
